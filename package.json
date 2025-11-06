@@ -1,0 +1,23 @@
+{
+  "name": "wrap-git",
+  "version": "2.0.0",
+  "homepage": "smachewgedefaw.vercel.app",
+  "repository": {
+    "url": "https://github.com/sgc93/wrap-git"
+  },
+  "description": "",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsup"
+  },
+  "keywords": ["git", "wrapper", "git-wrapper", "github-api-wrapper"],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "tsup": "^8.5.0",
+    "typescript": "^5.9.3"
+  }
+}

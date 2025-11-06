@@ -1,0 +1,20 @@
+export type ProfileType = {
+  id: number;
+  username: string;
+  name: string;
+  bio: string;
+  location: string;
+  company: string;
+  avatar_url: string;
+  html_url: string;
+  blog: string;
+  email: string;
+  hireable: boolean;
+  twitter_username: string | null;
+  public_repos: number;
+  public_gists: number;
+  followers: number;
+  following: number;
+  created_at: string;
+  updated_at: string;
+};
