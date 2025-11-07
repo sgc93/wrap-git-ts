@@ -1,17 +1,24 @@
 {
   "compilerOptions": {
+    "lib": ["ES2024", "DOM"],
+    "target": "es2024",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "outDir": "dist",
+    "declarationDir": "dist/types",
     "strict": true,
-    "noImplicitAny": true,
     "esModuleInterop": true,
-    "strictNullChecks": true,
-    "target": "es2023",
-    "moduleResolution": "Node",
-    "module": "CommonJS",
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "checkJs": true,
+    "allowJs": true,
     "declaration": true,
+    "declarationMap": true,
+    "allowSyntheticDefaultImports": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
     "isolatedModules": true,
-    "noEmit": true,
-    "outDir": "dist"
+    "noEmit": true
   },
-  "include": ["src"]  
-  ,"exclude": ["node_modules"]
+  "include": ["./src"]
 }

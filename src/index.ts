@@ -1,39 +1,18 @@
-import { getUserProfile } from "./api/profile";
-import { commitSummerizer } from "./core/commitSummerizer";
-import { repoSummerizer } from "./core/repoSummerizer";
-import { ProfileType } from "./types/ProfileType";
+// export { getUserProfile } from "./api/profile";
+// export { commitSummerizer } from "./core/commitSummerizer";
+// export { repoSummerizer } from "./core/repoSummerizer";
 
-// async function gitWrapped(username: string, token?: string) {
-//   const profile: {success: boolean, profile: ProfileType} = await getUserProfile(username, token);
-  
-//   if (profileData.success) {
-//     return {
-//       success: true,
-//       profile: profileData.profile,
-//       methods: {
-//         commitSummerizer,
-//         // issueSummerizer,
-//         // getOrgs,
-//         // recentActivities,
-//         // pullRequestSummerizer,
-//         // lngSummerizer,
-//         repoSummerizer
-//       }
-//     };
-//   } else {
-//     return { ...profileData.profile };
-//   }
-// }
+export function helloWorld() {
+  const message = "Hello World from my example modern npm package!";
+  return message;
+}
 
-export = {
+export function goodBye() {
+  const message = "Goodbye from my example modern npm package!";
+  return message;
+}
 
-  commitSummerizer,
-  getUserProfile,
-  // issueSummerizer,
-  // getOrgs,
-  // recentActivities,
-  // pullRequestSummerizer,
-  // lngSummerizer,
-  repoSummerizer,
-  // getAllRepos
+export default {
+  helloWorld,
+  goodBye
 };
