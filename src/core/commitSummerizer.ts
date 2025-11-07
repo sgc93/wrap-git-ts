@@ -1,9 +1,13 @@
-import { getCommitsBetween } from "../api/commits";
-import GitWrapperError from "../model/GitWrapperError";
-import { CommitType } from "../types/CommitType";
-import { unknowError } from "../utils/error";
+import { getCommitsBetween } from "../api/commits.js";
+import GitWrapperError from "../model/GitWrapperError.js";
+import { CommitType } from "../types/CommitType.js";
+import { unknowError } from "../utils/error.js";
 
-export const commitSummerizer = async (username: string, token: string, created_at:string) => {
+export const commitSummerizer = async (
+  username: string,
+  token: string,
+  created_at: string
+) => {
   const commitsPerYear: CommitType[] = [];
   let totalCommits = 0;
 
@@ -12,9 +16,9 @@ export const commitSummerizer = async (username: string, token: string, created_
     const currentYear = new Date().getFullYear();
 
     for (let year = startYear; year <= currentYear; year++) {
-      const yearlyCommits = await getCommitsBetween(username, year,token);
+      const yearlyCommits = await getCommitsBetween(username, year, token);
       commitsPerYear.push({ year: year.toString(), count: yearlyCommits });
-      
+
       totalCommits += yearlyCommits;
     }
 
@@ -25,7 +29,7 @@ export const commitSummerizer = async (username: string, token: string, created_
         commitsPerYear
       }
     };
-  } catch (error ) {
+  } catch (error) {
     if (error instanceof GitWrapperError) {
       return {
         success: false,

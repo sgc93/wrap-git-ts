@@ -1,24 +1,24 @@
-import { throwErrorMessage } from "../utils/format";
+import { throwErrorMessage } from "../utils/format.js";
 
 export const getUserProfile = async (username: string, token?: string) => {
   const url = `https://api.github.com/users/${username}`;
 
- const headers: Record<string, string> = {
+  const headers: Record<string, string> = {
     Accept: "application/vnd.github.cloak-preview+json"
   };
-  
+
   if (token) headers.Authorization = `Bearer ${token}`;
 
   try {
     const response = await fetch(url, { headers });
-    
+
     if (!response.ok) {
       const message = `GitHub API returned status ${response.status}`;
       throw throwErrorMessage(response.status, message);
     }
 
     const data = await response.json();
-    
+
     const {
       login,
       name,

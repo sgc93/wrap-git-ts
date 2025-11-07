@@ -1,5 +1,5 @@
-import { RepoType } from "../types/RepoType";
-import { sortReposByStars } from "../utils/sort";
+import { RepoType } from "../types/RepoType.js";
+import { sortReposByStars } from "../utils/sort.js";
 
 const calcTotalStars = (repos: RepoType[]) => {
   let stars = 0;
@@ -24,7 +24,6 @@ export const repoSummerizer = (repos: RepoType[]) => {
     totalRepos,
     starsEarned,
     topStarredRepos,
-    topCommitedRepos,
+    topCommitedRepos
   };
 };
-

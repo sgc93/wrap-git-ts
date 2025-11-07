@@ -1,4 +1,4 @@
-import GitWrapperError from "../model/GitWrapperError";
+import GitWrapperError from "../model/GitWrapperError.js";
 
 const throwErrorMessage = (status: number, error: string) => {
   switch (status) {

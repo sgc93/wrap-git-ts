@@ -1,4 +1,4 @@
-import { getErrorMessage } from "./format";
+import { getErrorMessage } from "./format.js";
 
 const unknowError = (err: string) => {
   return {
@@ -11,7 +11,7 @@ const unknowError = (err: string) => {
   };
 };
 
-const customError = (error: { status: number, details: string}) => {
+const customError = (error: { status: number; details: string }) => {
   const err = getErrorMessage(error.status);
   return {
     success: false,

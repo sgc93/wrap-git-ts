@@ -1,5 +1,5 @@
-import { throwErrorMessage } from "../utils/format";
-import { sortReposByStars } from "../utils/sort";
+import { throwErrorMessage } from "../utils/format.js";
+import { sortReposByStars } from "../utils/sort.js";
 
 export const getAllRepos = async (username: string, token?: string) => {
   try {
@@ -36,7 +36,7 @@ export const getAllRepos = async (username: string, token?: string) => {
         }
       } catch (error) {
         fetching = false;
-        console.log(error)
+        console.log(error);
       }
     }
 

@@ -1,10 +1,10 @@
-import GitWrapperError from "../model/GitWrapperError";
-import { throwErrorMessage } from "../utils/format";
+import GitWrapperError from "../model/GitWrapperError.js";
+import { throwErrorMessage } from "../utils/format.js";
 
 export const getCommitsBetween = async (
   username: string,
   year: number,
-  token?: string,
+  token?: string
 ) => {
   const startDate = `${year}-01-01`;
   const endDate = `${year}-12-31`;
@@ -18,7 +18,7 @@ export const getCommitsBetween = async (
 
   try {
     const response = await fetch(url, { headers });
-    
+
     if (!response.ok) {
       const message = `GitHub API returned status ${response.status}`;
       throw throwErrorMessage(response.status, message);
@@ -26,7 +26,6 @@ export const getCommitsBetween = async (
 
     const data = await response.json();
     return data.total_count;
-
   } catch (err: any) {
     if (err instanceof GitWrapperError) throw err;
 
