@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "lib": ["ES2024", "DOM"],
-    "target": "es2024",
+    "target": "es2022",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "outDir": "dist",
@@ -10,15 +10,12 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
-    "checkJs": true,
-    "allowJs": true,
-    "declaration": true,
-    "declarationMap": true,
     "allowSyntheticDefaultImports": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
-    "isolatedModules": true,
-    "noEmit": true
+    "isolatedModules": false,
+    "declaration": true,
+    "declarationMap": true
   },
-  "include": ["./src"]
+  "include": ["src"]
 }

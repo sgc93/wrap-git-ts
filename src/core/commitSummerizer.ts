@@ -5,8 +5,8 @@ import { unknowError } from "../utils/error.js";
 
 export const commitSummerizer = async (
   username: string,
-  token: string,
-  created_at: string
+  created_at: string,
+  token?: string
 ) => {
   const commitsPerYear: CommitType[] = [];
   let totalCommits = 0;

@@ -1,6 +1,6 @@
-// export { getUserProfile } from "./api/profile";
-// export { commitSummerizer } from "./core/commitSummerizer";
-// export { repoSummerizer } from "./core/repoSummerizer";
+export { getUserProfile } from "./api/profile.js";
+export { commitSummerizer } from "./core/commitSummerizer.js";
+export { repoSummerizer } from "./core/repoSummerizer.js";
 
 export function helloWorld() {
   const message = "Hello World from my example modern npm package!";
