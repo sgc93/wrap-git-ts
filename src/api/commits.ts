@@ -1,5 +1,4 @@
-import GitWrapperError from "../model/GitWrapperError.js";
-import { throwErrorMessage } from "../utils/format.js";
+import { throwError, throwGitError } from "../utils/error.js";
 
 export const getCommitsBetween = async (
   username: string,
@@ -21,18 +20,12 @@ export const getCommitsBetween = async (
 
     if (!response.ok) {
       const message = `GitHub API returned status ${response.status}`;
-      throw throwErrorMessage(response.status, message);
+      throw throwGitError(response.status, message);
     }
 
     const data = await response.json();
     return data.total_count;
   } catch (err: any) {
-    if (err instanceof GitWrapperError) throw err;
-
-    throw new GitWrapperError(
-      "NETWORK_ERROR",
-      "A network error occurred. Please check your internet connection.",
-      err.message
-    );
+    throwError(err);
   }
 };

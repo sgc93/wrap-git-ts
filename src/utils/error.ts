@@ -1,26 +1,40 @@
-import { getErrorMessage } from "./format.js";
+import GitWrapperError from "../model/GitWrapperError.js";
 
-const unknowError = (err: string) => {
-  return {
-    success: false,
-    error: {
-      code: "UNKNOWN_ERROR",
-      message: "An unknown error occurred",
-      details: err
-    }
-  };
+export const throwGitError = (status: number, error: string) => {
+  switch (status) {
+    case 401:
+      throw new GitWrapperError(
+        "UNAUTHORIZED",
+        "Invalid token or unauthorized access",
+        error
+      );
+    case 403:
+      throw new GitWrapperError(
+        "RATE_LIMIT_EXCEEDED",
+        "Rate limit exceeded. Please wait before making more requests.",
+        error
+      );
+    case 404:
+      throw new GitWrapperError(
+        "NOT_FOUND",
+        "The requested resource was not found",
+        error
+      );
+    default:
+      throw new GitWrapperError(
+        "GITHUB_API_ERROR",
+        "An error occurred while interacting with the GitHub API",
+        error
+      );
+  }
 };
 
-const customError = (error: { status: number; details: string }) => {
-  const err = getErrorMessage(error.status);
-  return {
-    success: false,
-    error: {
-      code: err.code,
-      message: err.message,
-      details: error.details
-    }
-  };
-};
+export const throwError = (err: any) => {
+  if (err instanceof GitWrapperError) throw err;
 
-export { unknowError, customError };
+  throw new GitWrapperError(
+    "NETWORK_ERROR",
+    "A network error occurred. Please check your internet connection.",
+    err.message
+  );
+};

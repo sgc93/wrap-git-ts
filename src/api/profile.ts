@@ -1,10 +1,10 @@
-import { throwErrorMessage } from "../utils/format.js";
+import { throwError, throwGitError } from "../utils/error.js";
 
 export const getUserProfile = async (username: string, token?: string) => {
   const url = `https://api.github.com/users/${username}`;
 
   const headers: Record<string, string> = {
-    Accept: "application/vnd.github.cloak-preview+json"
+    Accept: "application/vnd.github.cloak-preview+json",
   };
 
   if (token) headers.Authorization = `Bearer ${token}`;
@@ -14,7 +14,7 @@ export const getUserProfile = async (username: string, token?: string) => {
 
     if (!response.ok) {
       const message = `GitHub API returned status ${response.status}`;
-      throw throwErrorMessage(response.status, message);
+      throw throwGitError(response.status, message);
     }
 
     const data = await response.json();
@@ -37,7 +37,7 @@ export const getUserProfile = async (username: string, token?: string) => {
       public_repos,
       public_gists,
       followers,
-      following
+      following,
     } = data;
 
     return {
@@ -60,10 +60,10 @@ export const getUserProfile = async (username: string, token?: string) => {
         followers,
         following,
         publicRepos: public_repos,
-        publicGists: public_gists
-      }
+        publicGists: public_gists,
+      },
     };
   } catch (error) {
-    throwErrorMessage(500, (error as Error).message);
+    throwError(error);
   }
 };

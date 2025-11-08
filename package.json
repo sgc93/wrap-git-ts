@@ -1,11 +1,11 @@
 {
   "name": "wrap-git",
   "version": "2.0.0",
-  "homepage": "smachewgedefaw.vercel.app",
+  "homepage": "https://smachewgedefaw.vercel.app",
   "repository": {
-    "url": "https://github.com/sgc93/wrap-git"
+    "url": "https://github.com/sgc93/wrap-git-ts"
   },
-  "description": "",
+  "description": "GitHub profile wrapper and repositories, commits and language coverage summarizer node package.",
   "main": "./dist/index.js",
   "types": "./dist/types/index.d.ts",
   "module": "./dist/index.mjs",
@@ -19,12 +19,14 @@
   ],
   "keywords": [
     "git",
-    "wrapper",
+    "git-summarizer",
     "git-wrapper",
-    "github-api-wrapper"
+    "github-api-wrapper",
+    "git-wrapper-ts",
+    "git-wrapper-js"
   ],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "type": "module",
   "devDependencies": {
     "@types/node": "^24.10.0",

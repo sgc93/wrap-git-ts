@@ -1,5 +1,6 @@
 import { RepoType } from "../types/RepoType.js";
 import { sortReposByStars } from "../utils/sort.js";
+import { getAllRepos } from "../api/repos.js";
 
 const calcTotalStars = (repos: RepoType[]) => {
   let stars = 0;
@@ -10,20 +11,23 @@ const calcTotalStars = (repos: RepoType[]) => {
   return stars;
 };
 
-export const repoSummerizer = (repos: RepoType[]) => {
-  const sortedRepos = sortReposByStars(repos);
+export const repoSummarizer = async (username: string, token?: string) => {
+  const repos: RepoType[] = await getAllRepos(username, token);
+
+  const userRepos: RepoType[] = repos.filter((repo) => repo.owner === username);
+
+  const sortedRepos = sortReposByStars(userRepos);
   const totalRepos = sortedRepos.length;
 
-  const starsEarned = calcTotalStars(repos);
+  const starsEarned = calcTotalStars(userRepos);
   const topStarredRepos =
     totalRepos > 5 ? sortedRepos.slice(0, 6) : sortedRepos;
 
-  const topCommitedRepos: RepoType[] = [];
-
   return {
+    allRepos: userRepos,
     totalRepos,
     starsEarned,
     topStarredRepos,
-    topCommitedRepos
+    orgRepos: repos.length - userRepos.length,
   };
 };
