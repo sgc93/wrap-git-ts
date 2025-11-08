@@ -5,7 +5,7 @@
   "repository": {
     "url": "https://github.com/sgc93/wrap-git-ts"
   },
-  "description": "GitHub profile wrapper and repositories, commits and language coverage summarizer node package.",
+  "description": "Wraps GitHub profile and provides summarized details about repos, commits and language coverages for a given profile.",
   "main": "./dist/index.js",
   "types": "./dist/types/index.d.ts",
   "module": "./dist/index.mjs",
@@ -30,7 +30,6 @@
   "type": "module",
   "devDependencies": {
     "@types/node": "^24.10.0",
-    "tsup": "^8.5.0",
     "typescript": "^5.9.3"
   }
 }
