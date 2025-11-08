@@ -1,18 +1,16 @@
-export { getUserProfile } from "./api/profile.js";
-export { commitSummerizer } from "./core/commitSummerizer.js";
-export { repoSummerizer } from "./core/repoSummerizer.js";
+import { getUserProfile } from "./api/profile.js";
+import { commitSummarizar } from "./core/commitSummarizer.js";
+import { repoSummarizer } from "./core/repoSummarizer.js";
+import { lngSummarizer } from "./core/lngSummarizer.js";
 
-export function helloWorld() {
-  const message = "Hello World from my example modern npm package!";
-  return message;
-}
-
-export function goodBye() {
-  const message = "Goodbye from my example modern npm package!";
-  return message;
-}
+export { getUserProfile };
+export { commitSummarizar };
+export { repoSummarizer };
+export { lngSummarizer };
 
 export default {
-  helloWorld,
-  goodBye
+  getUserProfile,
+  commitSummarizar,
+  repoSummarizer,
+  lngSummarizer
 };
