@@ -11,8 +11,7 @@
   "module": "./dist/index.mjs",
   "scripts": {
     "build": "tsc -p ./tsconfig.json",
-    "prepack": "npm run build",
-    "test": "node --experimental-strip-types --test"
+    "prepack": "npm run build"
   },
   "files": [
     "dist/**/*"
@@ -29,7 +28,6 @@
   "license": "MIT",
   "type": "module",
   "devDependencies": {
-    "@types/node": "^24.10.0",
     "typescript": "^5.9.3"
   }
 }
