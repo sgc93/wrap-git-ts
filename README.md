@@ -21,7 +21,7 @@ npm install wrap-git
 ```
 or with yarn:
 
-```
+```bash
 yarn add wrap-git
 ```
 
