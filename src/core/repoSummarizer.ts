@@ -15,6 +15,9 @@ export const repoSummarizer = async (username: string, token?: string) => {
   const repos: RepoType[] = await getAllRepos(username, token);
 
   const userRepos: RepoType[] = repos.filter((repo) => repo.owner === username);
+  const publicRepos: RepoType[] = userRepos.filter(
+    (repo) => repo.visibility === "public"
+  );
 
   const sortedRepos = sortReposByStars(userRepos);
   const totalRepos = sortedRepos.length;
@@ -29,5 +32,6 @@ export const repoSummarizer = async (username: string, token?: string) => {
     starsEarned,
     topStarredRepos,
     orgRepos: repos.length - userRepos.length,
+    publicRepos: publicRepos.length
   };
 };
