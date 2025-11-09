@@ -1,7 +1,8 @@
+import { RepoType } from "../types/RepoType.js";
 import { throwError, throwGitError } from "../utils/error.js";
 
 export const getAllRepos = async (username: string, token?: string) => {
-  const repos = [];
+  const repos: RepoType[] = [];
   let page = 1;
   let fetching = true;
 
@@ -39,7 +40,8 @@ export const getAllRepos = async (username: string, token?: string) => {
           open_issues: repo.open_issues_count,
           html_url: repo.html_url,
           url: repo.url,
-          languages_url: repo.languages_url
+          languages_url: repo.languages_url,
+          visibility: repo.visibility
         }))
       );
 
@@ -73,7 +75,6 @@ export const getRepoLngs = async (repoUrl: string, token?: string) => {
     }
 
     const data = await response.json();
-
     return data;
   } catch (error) {
     throwError(error);
