@@ -58,13 +58,16 @@ export const lngSummarizer = async (username: string, token?: string) => {
    */
 
   const loc = Math.ceil(totalCodeSize / 70);
-
-  const top5Lngs = getTopLanguages(lngStats);
+  const allLngs = lngStats.map((stat) => ({
+    ...stat,
+    coverage: Math.round((stat.coverage / totalCodeSize) * 1000) / 10
+  }));
+  const top5Lngs = getTopLanguages(allLngs);
 
   return {
     totLineOfCode: loc,
     totalLngs: lngStats.length,
     top5Lngs,
-    allLngs: lngStats
+    allLngs
   };
 };
