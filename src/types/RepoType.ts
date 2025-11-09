@@ -12,4 +12,5 @@ export type RepoType = {
   html_url: string;
   url: string;
   languages_url: string;
+  visibility: string;
 };
