@@ -1,3 +1,5 @@
+import { throwError, throwGitError } from "../utils/error.js";
+
 const GITHUB_GRAPHQL_URL = "https://api.github.com/graphql";
 
 export async function githubGraphQL<T>(
@@ -9,19 +11,28 @@ export async function githubGraphQL<T>(
     "Content-Type": "application/json"
   };
 
-  if (token) headers.Autorization = `bearer ${token}`;
+  if (token) headers.Authorization = `bearer ${token}`;
 
-  const res = await fetch(GITHUB_GRAPHQL_URL, {
-    method: "POST",
-    headers: headers as HeadersInit,
-    body: JSON.stringify({ query, variables })
-  });
+  try {
+    const res = await fetch(GITHUB_GRAPHQL_URL, {
+      method: "POST",
+      headers: headers as HeadersInit,
+      body: JSON.stringify({ query, variables })
+    });
 
-  const json = await res.json();
-  console.log(json);
-  if (json.errors) {
-    const error = JSON.stringify(json.errors, null, 2);
-    console.log(json.errors);
+    if (!res.ok) {
+      const message = `GitHub API returned status ${res.status}`;
+      throw throwGitError(res.status, message);
+    }
+
+    const json = await res.json();
+
+    if (json.errors) {
+      throw throwGitError(400, JSON.stringify(json.errors));
+    }
+
+    return json.data;
+  } catch (error: any) {
+    throw throwError(error.message);
   }
-  return json.data;
 }
