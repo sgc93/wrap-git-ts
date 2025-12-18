@@ -28,3 +28,37 @@ export async function githubGraphQL<T>(
   }
   return json.data;
 }
+
+// queries
+const userDataQuery = `
+query GetProfile($login: String!) {
+  user(login: $login) {
+    id
+    name
+    login
+    bio
+    avatarUrl
+    company
+    location
+    email
+    followers {
+      totalCount
+    }
+    following {
+      totalCount
+    }
+    createdAt
+    starredRepositories {
+      totalCount
+    }
+    repositories {
+      totalCount
+    }
+  }
+}`;
+
+export const getUserProfile = async (usernae: string, token?: string) => {
+  const profileData = await githubGraphQL(userDataQuery, { login: usernae }, token);
+
+  return profileData;
+}
