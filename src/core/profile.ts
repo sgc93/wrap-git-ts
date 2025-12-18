@@ -1,5 +1,5 @@
 import { GitHubProfile } from "../types/types.js";
-import { githubGraphQL } from "./api.js";
+import { githubGraphQL } from "../api/api.js";
 
 const userDataQuery = `
 query GetProfile($login: String!) {
@@ -27,7 +27,7 @@ query GetProfile($login: String!) {
   }
 }`;
 
-export const getUserProfile = async (
+export const getGitHubUser = async (
   username: string,
   token?: string
 ): Promise<GitHubProfile> => {
