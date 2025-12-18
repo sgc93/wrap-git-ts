@@ -1,53 +1,57 @@
-import { githubGraphQL } from "../api/api.js";
 import { GitHubCommit } from "../types/types.js";
+import { throwError, throwGitError } from "../utils/error.js";
 
-function getEndOfYearISO(year: number): string {
-  return `${year}-12-31T23:59:59Z`;
-}
+export const getCommitsBetween = async (
+  username: string,
+  year: number,
+  token?: string
+) => {
+  const startDate = `${year}-01-01`;
+  const endDate = `${year}-12-31`;
+  const url = `https://api.github.com/search/commits?q=author:${username}+author-date:${startDate}..${endDate}`;
 
-function getStartOfYearISO(year: number): string {
-  return `${year}-01-01T00:00:00Z`;
-}
+  const headers: Record<string, string> = {
+    Accept: "application/vnd.github.cloak-preview+json"
+  };
+  if (token) headers.Authorization = `Bearer ${token}`;
+
+  try {
+    const response = await fetch(url, { headers });
+    if (!response.ok) {
+      throw throwGitError(
+        response.status,
+        `GitHub API returned status ${response.status}`
+      );
+    }
+    const data = await response.json();
+    return typeof data.total_count === "number" ? data.total_count : 0;
+  } catch (err) {
+    throwError(err);
+  }
+};
 
 export const getGitHubCommits = async (
   username: string,
   startYear: number,
   token?: string
 ): Promise<GitHubCommit> => {
-  const commitsPerYear: { year: number; count: number }[] = [];
-
-  // commit counts per each year since $startYear
   const currentYear = new Date().getFullYear();
 
-  const yearQuery = `
-    query ($login: String!, $from: DateTime!, $to: DateTime!) {
-      user(login: $login) {
-        contributionsCollection(from: $from, to: $to) {
-          totalCommitContributions
-        }
-      }
-    }
-  `;
-
+  const yearPromises = [];
   for (let year = startYear; year <= currentYear; year++) {
-    const from = getStartOfYearISO(year);
-    const to =
-      year === currentYear ? new Date().toISOString() : getEndOfYearISO(year);
-
-    const yearData = await githubGraphQL<{
-      user: { contributionsCollection: { totalCommitContributions: number } };
-    }>(yearQuery, { login: username, from, to }, token);
-
-    commitsPerYear.push({
-      year,
-      count: yearData.user.contributionsCollection.totalCommitContributions
-    });
+    yearPromises.push(getCommitsBetween(username, year, token));
   }
 
-  const totalCommits = commitsPerYear.reduce(
-    (sum, item) => sum + item.count,
-    0
-  );
+  const yearlyCounts = await Promise.all(yearPromises);
+
+  const commitsPerYear: { year: number; count: number }[] = [];
+  let totalCommits = 0;
+  for (let i = 0; i < yearlyCounts.length; i++) {
+    const year = startYear + i;
+    const count = yearlyCounts[i];
+    commitsPerYear.push({ year, count });
+    totalCommits += count;
+  }
 
   return {
     totalCommits,
