@@ -1,12 +1,18 @@
 import { getGitHubUser } from "./core/profile.js";
 import { getGitHubCommits } from "./core/commits.js";
-import { getGitHubContributions } from "./core/contributions.js";
+import {
+  getGitHubContributions,
+  getGitHubContributionTypesPerYear
+} from "./core/contributions.js";
 
 import { GitHubProfile, GitHubCommit } from "./types/types.js";
 
-export { getGitHubUser };
-export { getGitHubCommits };
-export { getGitHubContributions };
+export {
+  getGitHubUser,
+  getGitHubCommits,
+  getGitHubContributions,
+  getGitHubContributionTypesPerYear
+};
 
 export type { GitHubProfile, GitHubCommit };
 
