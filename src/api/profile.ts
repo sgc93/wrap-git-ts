@@ -28,12 +28,12 @@ query GetProfile($login: String!) {
 }`;
 
 export const getUserProfile = async (
-  usernae: string,
+  username: string,
   token?: string
 ): Promise<GitHubProfile> => {
   const profileData = await githubGraphQL(
     userDataQuery,
-    { login: usernae },
+    { login: username },
     token
   );
 
