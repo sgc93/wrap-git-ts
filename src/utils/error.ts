@@ -1,7 +1,17 @@
 import GitWrapperError from "../model/GitWrapperError.js";
 
-export const throwGitError = (status: number, error: string) => {
+export const throwGitError = (
+  status: number,
+  error: string,
+  detail?: string
+) => {
   switch (status) {
+    case 400:
+      throw new GitWrapperError(
+        "BAD REQUEST",
+        error,
+        detail || "Package error while trying to call github api"
+      );
     case 401:
       throw new GitWrapperError(
         "UNAUTHORIZED",
@@ -23,18 +33,16 @@ export const throwGitError = (status: number, error: string) => {
     default:
       throw new GitWrapperError(
         "GITHUB_API_ERROR",
-        "An error occurred while interacting with the GitHub API",
-        error
+        error,
+        detail || "An error occurred while interacting with the GitHub API"
       );
   }
 };
 
 export const throwError = (err: any) => {
-  if (err instanceof GitWrapperError) throw err;
-
   throw new GitWrapperError(
     "NETWORK_ERROR",
-    "A network error occurred. Please check your internet connection.",
-    err.message
+    "No internet, Please check your internet connection.",
+    err
   );
 };
