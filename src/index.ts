@@ -1,5 +1,5 @@
-import { getUserProfile } from "./api/profile.js";
-import { commitSummarizar } from "./core/commitSummarizer.js";
+import { getGitHubUser } from "./core/profile.js";
+import { getGitHubCommits } from "./core/commits.js";
 import { repoSummarizer } from "./core/repoSummarizer.js";
 import { lngSummarizer } from "./core/lngSummarizer.js";
 
@@ -8,16 +8,16 @@ import { CommitType } from "./types/CommitType.js";
 import { LngType } from "./types/Lngtype.js";
 import { RepoType } from "./types/RepoType.js";
 
-export { getUserProfile };
-export { commitSummarizar };
+export { getGitHubUser };
+export { getGitHubCommits };
 export { repoSummarizer };
 export { lngSummarizer };
 
 export type { CommitType, GitHubProfile, LngType, RepoType };
 
 export default {
-  getUserProfile,
-  commitSummarizar,
+  getGitHubUser,
+  getGitHubCommits,
   repoSummarizer,
   lngSummarizer
 };
