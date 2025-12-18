@@ -1,10 +1,11 @@
 import { githubGraphQL } from "../api/api.js";
+import { GitHubCommit } from "../types/types.js";
 
 export const getGitHubCommits = async (
   username: string,
   startYear: number,
   token?: string
-) => {
+): Promise<GitHubCommit> => {
   const commitsPerYear: { year: number; count: number }[] = [];
   let totalCommits = 0;
 
