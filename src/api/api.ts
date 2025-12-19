@@ -28,7 +28,7 @@ export async function githubGraphQL<T>(
     const json = await res.json();
 
     if (json.errors) {
-      throw throwGitError(400, JSON.stringify(json.errors));
+      throw throwGitError(400, json.errors[0].message);
     }
 
     return json.data;
