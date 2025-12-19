@@ -7,10 +7,10 @@ This package simplifies data retrieval and analysis from GitHub, making it an ex
 ## Features
 
 - Fetch user profiles and filter screen data.
-- Fetch and filter `commits`, `repositories`, and `languages` coverages.
-- Analyze commits per each year.
+- Fetch and filter `commits`, `repositories`, `contributions` and `languages` coverages.
+- Analyze commits and contributions per each year.
 - Analyze repos — tops, star counts, and details.
-- Analyze language coverage per each repo, top languages, and percentages.
+- Analyze language coverage including repo count, top languages, and percentages.
 
 ## Installation
 
@@ -30,17 +30,19 @@ You can use the package by importing individual methods or use the default expor
 
 ### Option A — Named imports
 ```ts
-  import { getUserProfile, commitSummarizar, repoSummarizer, lngSummarizer } from "wrap-git";
+  import { getGitHubUser, getGitHubCommits, getGitHubContributions, getGitHubContributionTypesPerYear, getGitHubLanguages, getGitHubRepos, getGitHubPinnedRepos } from "wrap-git";
 
-  const userProfile = await getUserProfile('sgc93');  // don't forget to handle errors
+
+  const userProfile = await getGitHubUser('sgc93', token);  // don't forget to handle errors
 ```
 
 ### Option B — Default import
 ```ts
   import wrapGit from "wrap-git";
 
-  const { getUserProfile, commitSummarizar, repoSummarizer, lngSummarizer } = wrapGit;
-  const userProfile = await getUserProfile('sgc93');  // don't forget to handle errors
+  const { getGitHubUser, getGitHubCommits, getGitHubContributions, getGitHubContributionTypesPerYear, getGitHubLanguages, getGitHubRepos, getGitHubPinnedRepos } = wrapGit;
+
+  const userProfile = await getGitHubUser('sgc93', token);  // don't forget to handle errors
 ```
 
 ## Contributing
