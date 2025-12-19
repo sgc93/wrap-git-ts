@@ -13,6 +13,21 @@ export type GitHubProfile = {
   createdAt: string;
 };
 
+export type GitHubRepo = {
+  name: string;
+  full_name: string;
+  owner: string;
+  description: string;
+  stargazers_count: number;
+  forks: number;
+  language: { name: string; color: string };
+  created_at: string;
+  open_issues: number;
+  html_url: string;
+  url: string;
+  visibility: string;
+};
+
 export type GitHubCommit = {
   totalCommits: number;
   commitsPerYear: {
