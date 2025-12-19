@@ -1,4 +1,3 @@
-import { sortReposByStars } from "../utils/sort.js";
 import { throwError } from "../utils/error.js";
 import { githubGraphQL } from "../api/api.js";
 import { GitHubRepo } from "../types/types.js";
