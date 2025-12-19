@@ -11,6 +11,7 @@ This package simplifies data retrieval and analysis from GitHub, making it an ex
 - Analyze commits and contributions per each year.
 - Analyze repos — tops, star counts, and details.
 - Analyze language coverage including repo count, top languages, and percentages.
+- Calcuate longest sreak, effective day and effective month
 
 ## Installation
 
