@@ -1,4 +1,5 @@
 import { githubGraphQL } from "../api/api.js";
+import { GitHubContribution } from "../types/types.js";
 
 export const getGitHubContributions = async (
   username: string,
@@ -59,7 +60,6 @@ export const getGitHubContributions = async (
   };
 };
 
-
 type PerTypeYearContributions = {
   year: number;
   commits: number;
@@ -119,4 +119,65 @@ export const getGitHubContributionTypesPerYear = async (
   }
 
   return contributionsPerYear;
+};
+
+const CONTRIBUTIONS_QUERY = `
+  query($username: String!, $from: DateTime, $to: DateTime) {
+    user(login: $username) {
+      contributionsCollection(from: $from, to: $to) {
+        contributionCalendar {
+          totalContributions
+          weeks {
+            contributionDays {
+              contributionCount
+              date
+              color
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+interface ContributionResponse {
+  user: {
+    contributionsCollection: {
+      contributionCalendar: {
+        totalContributions: number;
+        weeks: Array<{
+          contributionDays: Array<{
+            contributionCount: number;
+            date: string;
+            color: string;
+          }>;
+        }>;
+      };
+    };
+  };
+}
+
+export const getGitHubYearlyContributions = async (
+  username: string,
+  year: number,
+  token: string
+): Promise<GitHubContribution> => {
+  const from = `${year}-01-01T00:00:00Z`;
+  const to = `${year}-12-31T23:59:59Z`;
+
+  const result = await githubGraphQL<ContributionResponse>(
+    CONTRIBUTIONS_QUERY,
+    { username, from, to },
+    token
+  );
+
+  const calendar = result.user.contributionsCollection.contributionCalendar;
+
+  const dailyData = calendar.weeks.flatMap((week) => week.contributionDays);
+
+  return {
+    year,
+    totalContributions: calendar.totalContributions,
+    days: dailyData
+  };
 };
