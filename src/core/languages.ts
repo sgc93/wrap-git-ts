@@ -5,7 +5,7 @@ export const getGitHubLanguages = async (
   username: string,
   token?: string,
   sortBy: "repo_count" | "coverage" = "coverage"
-): Promise<UserLangStat[]> => {
+): Promise<{ lngs: UserLangStat[]; totalLngs: number }> => {
   let repos: {
     name: string;
     languages: { edges: { size: number; node: { name: string } }[] };
@@ -85,5 +85,5 @@ export const getGitHubLanguages = async (
       sortBy === "coverage" ? b.coverage - a.coverage : b.repos - a.repos
     );
 
-  return result;
+  return { lngs: result, totalLngs: result.length };
 };
