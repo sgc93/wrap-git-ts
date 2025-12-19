@@ -5,7 +5,8 @@ import { getGitHubRepos, getGitHubPinnedRepos } from "./core/repositories.js";
 import {
   getGitHubContributions,
   getGitHubContributionTypesPerYear,
-  getGitHubYearlyContributions
+  getGitHubYearlyContributions,
+  getMonthlyContributions
 } from "./core/contributions.js";
 
 import {
@@ -13,7 +14,8 @@ import {
   GitHubCommit,
   UserLangStat,
   GitHubRepo,
-  GitHubContribution
+  GitHubContribution,
+  MonthlyContribution
 } from "./types/types.js";
 
 export {
@@ -24,7 +26,8 @@ export {
   getGitHubYearlyContributions,
   getGitHubLanguages,
   getGitHubRepos,
-  getGitHubPinnedRepos
+  getGitHubPinnedRepos,
+  getMonthlyContributions
 };
 
 export type {
@@ -32,7 +35,8 @@ export type {
   GitHubCommit,
   UserLangStat,
   GitHubRepo,
-  GitHubContribution
+  GitHubContribution,
+  MonthlyContribution
 };
 
 export default {
