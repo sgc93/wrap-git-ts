@@ -3,7 +3,7 @@
   "version": "3.0.0",
   "homepage": "https://smachewgedefaw.vercel.app",
   "repository": {
-    "url": "https://github.com/sgc93/wrap-git-ts"
+    "url": "git+https://github.com/sgc93/wrap-git-ts.git"
   },
   "description": "Wraps GitHub profile and provides summarized details about repos, commits, language coverages and contributions for a given profile.",
   "main": "./dist/index.js",
