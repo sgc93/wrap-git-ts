@@ -20,3 +20,9 @@ export type GitHubCommit = {
     count: number;
   }[];
 };
+
+export type UserLangStat = {
+  lngName: string;
+  coverage: number;
+  repos: number;
+};
