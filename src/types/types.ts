@@ -55,7 +55,24 @@ export type GitHubContribution = {
     };
     activeDays: number;
   };
-  effectiveMonth: MonthlyContribution;
+  effectiveMonth: {
+    index: number;
+    name: string;
+    contributionCounts: number;
+    percent: number;
+    allMonths: {
+      name: string;
+      count: number;
+      percent: number;
+    }[];
+  };
+  effectiveDay: {
+    index: number;
+    name: string;
+    contributionCounts: number;
+    percent: number;
+    allDays: { name: string; count: number }[];
+  };
 };
 
 export type UserLangStat = {
