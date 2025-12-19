@@ -3,10 +3,10 @@ import { UserLangStat } from "../types/types.js";
 
 export const getGitHubLanguages = async (
   username: string,
-  token?: string
+  token?: string,
+  sortBy: "repo_count" | "coverage" = "coverage"
 ): Promise<UserLangStat[]> => {
-
-    let repos: {
+  let repos: {
     name: string;
     languages: { edges: { size: number; node: { name: string } }[] };
   }[] = [];
@@ -67,7 +67,7 @@ export const getGitHubLanguages = async (
 
   const reposPerLanguage: Record<string, number> = {};
   repos.forEach((repo) => {
-    if (!repo.languages.edges.length) return; 
+    if (!repo.languages.edges.length) return;
     const top = repo.languages.edges.reduce((a, b) =>
       a.size >= b.size ? a : b
     );
@@ -81,7 +81,9 @@ export const getGitHubLanguages = async (
       coverage: totalBytes ? +((100 * bytes) / totalBytes).toFixed(1) : 0,
       repos: reposPerLanguage[lngName] || 0
     }))
-    .sort((a, b) => b.coverage - a.coverage);
+    .sort((a, b) =>
+      sortBy === "coverage" ? b.coverage - a.coverage : b.repos - a.repos
+    );
 
   return result;
 };
