@@ -1,5 +1,5 @@
 import { githubGraphQL } from "../api/api.js";
-import { GitHubContribution } from "../types/types.js";
+import { GitHubContribution, MonthlyContribution } from "../types/types.js";
 
 export const getGitHubContributions = async (
   username: string,
@@ -140,22 +140,123 @@ const CONTRIBUTIONS_QUERY = `
   }
 `;
 
+interface ContributionDay {
+  contributionCount: number;
+  date: string;
+  color: string;
+}
+
 interface ContributionResponse {
   user: {
     contributionsCollection: {
       contributionCalendar: {
         totalContributions: number;
         weeks: Array<{
-          contributionDays: Array<{
-            contributionCount: number;
-            date: string;
-            color: string;
-          }>;
+          contributionDays: Array<ContributionDay>;
         }>;
       };
     };
   };
 }
+
+interface StreakData {
+  count: number;
+  startDate: string;
+  endDate: string;
+}
+
+const calcStreakStats = (
+  days: ContributionDay[]
+): { longestStreak: StreakData; activeDays: number } => {
+  let longestStreak: StreakData = { count: 0, startDate: "", endDate: "" };
+
+  let tempStreak: StreakData = { count: 0, startDate: "", endDate: "" };
+
+  // ensure chronological order
+  const sortedDays = [...days].sort(
+    (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+  );
+  const activeDays = sortedDays.filter(
+    (day) => day.contributionCount > 0
+  ).length;
+
+  sortedDays.forEach((day) => {
+    if (day.contributionCount > 0) {
+      if (tempStreak.count === 0) {
+        tempStreak.startDate = day.date;
+      }
+      tempStreak.count++;
+      tempStreak.endDate = day.date;
+
+      if (tempStreak.count > longestStreak.count) {
+        longestStreak = { ...tempStreak };
+      }
+    } else {
+      tempStreak = { count: 0, startDate: "", endDate: "" };
+    }
+  });
+
+  return { longestStreak, activeDays };
+};
+
+const monthNames = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December"
+];
+
+const getEffectiveMonth = (days: ContributionDay[], totalCommit: number) => {
+  const monthlyCounts = new Array(12).fill(0);
+  days.forEach((day) => {
+    const monthlyIndex = new Date(day.date).getUTCMonth();
+    monthlyCounts[monthlyIndex] += day.contributionCount;
+  });
+
+  let maxCount = -1;
+  let maxIndex = 0;
+
+  monthlyCounts.forEach((count, index) => {
+    if (count > maxCount) {
+      maxCount = count;
+      maxIndex = index;
+    }
+  });
+
+  return {
+    index: maxIndex,
+    name: monthNames[maxIndex],
+    contributionCounts: maxCount,
+    percent:
+      totalCommit > 0 ? Math.round((maxCount / totalCommit) * 1000) / 10 : 0
+  };
+};
+
+export const getMonthlyContributions = (
+  days: ContributionDay[],
+  totalCommit: number
+): MonthlyContribution[] => {
+  const monthlyCounts = new Array(12).fill(0);
+  days.forEach((day) => {
+    const monthlyIndex = new Date(day.date).getUTCMonth();
+    monthlyCounts[monthlyIndex] += day.contributionCount;
+  });
+
+  return monthlyCounts.map((count, index) => ({
+    index,
+    name: monthNames[index],
+    contributionCounts: count,
+    percent: totalCommit > 0 ? Math.round((count / totalCommit) * 1000) / 10 : 0
+  }));
+};
 
 export const getGitHubYearlyContributions = async (
   username: string,
@@ -175,9 +276,17 @@ export const getGitHubYearlyContributions = async (
 
   const dailyData = calendar.weeks.flatMap((week) => week.contributionDays);
 
+  const streakStats = calcStreakStats(dailyData);
+  const effectiveMonth = getEffectiveMonth(
+    dailyData,
+    calendar.totalContributions
+  );
+
   return {
     year,
     totalContributions: calendar.totalContributions,
-    days: dailyData
+    days: dailyData,
+    streakStats,
+    effectiveMonth
   };
 };
