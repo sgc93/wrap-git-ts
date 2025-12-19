@@ -4,14 +4,16 @@ import { getGitHubLanguages } from "./core/languages.js";
 import { getGitHubRepos, getGitHubPinnedRepos } from "./core/repositories.js";
 import {
   getGitHubContributions,
-  getGitHubContributionTypesPerYear
+  getGitHubContributionTypesPerYear,
+  getGitHubYearlyContributions
 } from "./core/contributions.js";
 
 import {
   GitHubProfile,
   GitHubCommit,
   UserLangStat,
-  GitHubRepo
+  GitHubRepo,
+  GitHubContribution
 } from "./types/types.js";
 
 export {
@@ -19,18 +21,26 @@ export {
   getGitHubCommits,
   getGitHubContributions,
   getGitHubContributionTypesPerYear,
+  getGitHubYearlyContributions,
   getGitHubLanguages,
   getGitHubRepos,
   getGitHubPinnedRepos
 };
 
-export type { GitHubProfile, GitHubCommit, UserLangStat, GitHubRepo };
+export type {
+  GitHubProfile,
+  GitHubCommit,
+  UserLangStat,
+  GitHubRepo,
+  GitHubContribution
+};
 
 export default {
   getGitHubUser,
   getGitHubCommits,
   getGitHubContributions,
   getGitHubContributionTypesPerYear,
+  getGitHubYearlyContributions,
   getGitHubLanguages,
   getGitHubRepos,
   getGitHubPinnedRepos
