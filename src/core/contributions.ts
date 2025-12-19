@@ -199,6 +199,44 @@ const calcStreakStats = (
   return { longestStreak, activeDays };
 };
 
+const daysInWeek = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday"
+];
+
+const getEffectiveDay = (days: ContributionDay[], totalCommit: number) => {
+  const weeklyCounts = new Array(7).fill(0);
+
+  days.forEach((day) => {
+    const dayIndex = new Date(day.date).getUTCDay();
+    weeklyCounts[dayIndex] += day.contributionCount;
+  });
+
+  let maxCount = -1;
+  let maxIndex = 0;
+
+  weeklyCounts.forEach((count, index) => {
+    if (count > maxCount) {
+      maxCount = count;
+      maxIndex = index;
+    }
+  });
+
+  return {
+    index: maxIndex,
+    name: daysInWeek[maxIndex],
+    contributionCounts: maxCount,
+    percent:
+      totalCommit > 0 ? Math.round((maxCount / totalCommit) * 1000) / 10 : 0,
+    allDays: weeklyCounts.map((count, i) => ({ name: daysInWeek[i], count }))
+  };
+};
+
 const monthNames = [
   "January",
   "February",
@@ -236,7 +274,13 @@ const getEffectiveMonth = (days: ContributionDay[], totalCommit: number) => {
     name: monthNames[maxIndex],
     contributionCounts: maxCount,
     percent:
-      totalCommit > 0 ? Math.round((maxCount / totalCommit) * 1000) / 10 : 0
+      totalCommit > 0 ? Math.round((maxCount / totalCommit) * 1000) / 10 : 0,
+    allMonths: monthlyCounts.map((count, index) => ({
+      name: monthNames[index],
+      count,
+      percent:
+        totalCommit > 0 ? Math.round((count / totalCommit) * 1000) / 10 : 0
+    }))
   };
 };
 
@@ -281,12 +325,14 @@ export const getGitHubYearlyContributions = async (
     dailyData,
     calendar.totalContributions
   );
+  const effectiveDay = getEffectiveDay(dailyData, calendar.totalContributions);
 
   return {
     year,
     totalContributions: calendar.totalContributions,
     days: dailyData,
     streakStats,
-    effectiveMonth
+    effectiveMonth,
+    effectiveDay
   };
 };
