@@ -36,6 +36,12 @@ export type GitHubCommit = {
   }[];
 };
 
+export type GitHubContribution = {
+  year: number;
+  totalContributions: number;
+  days: { contributionCount: number; date: string; color: string }[];
+};
+
 export type UserLangStat = {
   lngName: string;
   coverage: number;
