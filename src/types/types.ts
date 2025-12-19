@@ -36,10 +36,26 @@ export type GitHubCommit = {
   }[];
 };
 
+export type MonthlyContribution = {
+  index: number;
+  name: string;
+  contributionCounts: number;
+  percent: number;
+};
+
 export type GitHubContribution = {
   year: number;
   totalContributions: number;
   days: { contributionCount: number; date: string; color: string }[];
+  streakStats: {
+    longestStreak: {
+      count: number;
+      startDate: string;
+      endDate: string;
+    };
+    activeDays: number;
+  };
+  effectiveMonth: MonthlyContribution;
 };
 
 export type UserLangStat = {
