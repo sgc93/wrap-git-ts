@@ -1,11 +1,11 @@
 {
   "name": "wrap-git",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "homepage": "https://smachewgedefaw.vercel.app",
   "repository": {
     "url": "git+https://github.com/sgc93/wrap-git-ts.git"
   },
-  "description": "Wraps GitHub profile and provides summarized details about repos, commits, language coverages and contributions for a given profile.",
+  "description": "Wraps GitHub profile and provides summarized details about repos, commits, language coverages, contributions and yearly recap for a given profile.",
   "main": "./dist/index.js",
   "types": "./dist/types/index.d.ts",
   "module": "./dist/index.mjs",
