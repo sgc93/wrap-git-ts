@@ -75,8 +75,9 @@ export type GitHubContribution = {
   };
 };
 
-export type UserLangStat = {
+export type GithubLanguage = {
   lngName: string;
   coverage: number;
   repos: number;
+  color: string;
 };
