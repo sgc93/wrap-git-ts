@@ -1,17 +1,35 @@
+import {
+  GitHubContribution,
+  GitHubLanguage,
+  GitHubProfile
+} from "../types/types.js";
+import { getGitHubYearlyContributions } from "./contributions.js";
+import { getGitHubLanguagesByYear } from "./languages.js";
+import { getGitHubUser } from "./profile.js";
 
-export const getGitHubRecap = async (
+export const getGitHubYearlyRecap = async (
   username: string,
   year: number,
-  token: string
+  token?: string
 ) => {
-  const from = `${year}-01-01T00:00:00Z`;
-  const to = `${year}-12-31T23:59:59Z`;
+  const profile: GitHubProfile = await getGitHubUser(username, token);
+  const contributions: GitHubContribution = await getGitHubYearlyContributions(
+    username,
+    year,
+    token
+  );
 
-  // contributions days -> green graph
-  // total contributions
-  // longest streak
-  // effective day + active days from 365 days
-  // effective month
-  // top language
+  const langStats: { lngs: GitHubLanguage[]; totalLngs: number } =
+    await getGitHubLanguagesByYear(username, year, token);
 
+  console.log(profile);
+  console.log(contributions);
+  console.log(langStats);
+
+  // universal rank
+  return {
+    profile,
+    contributions,
+    langStats
+  };
 };
