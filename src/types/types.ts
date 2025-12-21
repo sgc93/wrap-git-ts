@@ -80,4 +80,5 @@ export type GitHubLanguage = {
   coverage: number;
   repos: number;
   color: string;
+  loc: number;
 };
