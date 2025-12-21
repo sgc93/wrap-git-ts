@@ -1,7 +1,11 @@
 import { getGitHubUser } from "./core/profile.js";
 import { getGitHubCommits } from "./core/commits.js";
-import { getGitHubLanguages } from "./core/languages.js";
+import {
+  getGitHubLanguages,
+  getGitHubLanguagesByYear
+} from "./core/languages.js";
 import { getGitHubRepos, getGitHubPinnedRepos } from "./core/repositories.js";
+import { getGitHubYearlyRecap } from "./core/gitRecap.js";
 import {
   getGitHubContributions,
   getGitHubContributionTypesPerYear,
@@ -9,10 +13,12 @@ import {
   getMonthlyContributions
 } from "./core/contributions.js";
 
+import WrapGitError from "./model/WrapGitError.js";
+
 import {
   GitHubProfile,
   GitHubCommit,
-  UserLangStat,
+  GitHubLanguage,
   GitHubRepo,
   GitHubContribution,
   MonthlyContribution
@@ -27,13 +33,16 @@ export {
   getGitHubLanguages,
   getGitHubRepos,
   getGitHubPinnedRepos,
-  getMonthlyContributions
+  getMonthlyContributions,
+  getGitHubLanguagesByYear,
+  getGitHubYearlyRecap,
+  WrapGitError
 };
 
 export type {
   GitHubProfile,
   GitHubCommit,
-  UserLangStat,
+  GitHubLanguage,
   GitHubRepo,
   GitHubContribution,
   MonthlyContribution
@@ -45,7 +54,8 @@ export default {
   getGitHubContributions,
   getGitHubContributionTypesPerYear,
   getGitHubYearlyContributions,
-  getGitHubLanguages,
   getGitHubRepos,
-  getGitHubPinnedRepos
+  getGitHubPinnedRepos,
+  getGitHubYearlyRecap,
+  WrapGitError
 };
