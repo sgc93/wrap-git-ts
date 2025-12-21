@@ -11,7 +11,6 @@ export const getGitHubContributions = async (
 }> => {
   const contributionsPerYear: { year: string; count: number }[] = [];
 
-  // 2. contributions per each year since $startYear
   const currentYear = new Date().getFullYear();
 
   const yearQuery = `
@@ -334,5 +333,45 @@ export const getGitHubYearlyContributions = async (
     streakStats,
     effectiveMonth,
     effectiveDay
+  };
+};
+
+
+interface ActivityStats {
+  pullRequests: number;
+  issues: number;
+  year: number;
+}
+
+export const getGitHubYearlyActivityStats = async (
+  username: string,
+  year: number,
+  token?: string
+): Promise<ActivityStats> => {
+  const dateRange = `${year}-01-01..${year}-12-31`;
+
+  const prQueryString = `author:${username} created:${dateRange} type:pr`;
+  const issueQueryString = `author:${username} created:${dateRange} type:issue`;
+
+  const query = `
+    query($prQuery: String!, $issueQuery: String!) {
+      totalPRs: search(query: $prQuery, type: ISSUE, first: 0) {
+        issueCount
+      }
+      totalIssues: search(query: $issueQuery, type: ISSUE, first: 0) {
+        issueCount
+      }
+    }
+  `;
+
+  const data = await githubGraphQL<{
+    totalPRs: { issueCount: number };
+    totalIssues: { issueCount: number };
+  }>(query, { prQuery: prQueryString, issueQuery: issueQueryString }, token);
+
+  return {
+    pullRequests: data.totalPRs.issueCount,
+    issues: data.totalIssues.issueCount,
+    year
   };
 };
