@@ -31,11 +31,11 @@ export const getGitHubUser = async (
   username: string,
   token?: string
 ): Promise<GitHubProfile> => {
-  const profileData = await githubGraphQL(
+  const data = await githubGraphQL<{ user: GitHubProfile }>(
     userDataQuery,
     { login: username },
     token
   );
 
-  return profileData as GitHubProfile;
+  return data.user;
 };
