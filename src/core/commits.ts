@@ -1,7 +1,7 @@
 import { GitHubCommit } from "../types/types.js";
 import { throwError, throwGitError } from "../utils/error.js";
 
-export const getCommitsBetween = async (
+export const getGitHubYearlyCommits = async (
   username: string,
   year: number,
   token?: string
@@ -39,7 +39,7 @@ export const getGitHubCommits = async (
 
   const yearPromises = [];
   for (let year = startYear; year <= currentYear; year++) {
-    yearPromises.push(getCommitsBetween(username, year, token));
+    yearPromises.push(getGitHubYearlyCommits(username, year, token));
   }
 
   const yearlyCounts = await Promise.all(yearPromises);
