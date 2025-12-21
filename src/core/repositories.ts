@@ -99,7 +99,7 @@ interface PinnedReposResponse {
 
 export const getAllRepos = async (
   username: string,
-  token: string
+  token?: string
 ): Promise<GitHubRepo[]> => {
   const allRepos: GitHubRepo[] = [];
   let hasNextPage = true;
@@ -148,7 +148,7 @@ export const getAllRepos = async (
 
 export const getGitHubPinnedRepos = async (
   username: string,
-  token: string
+  token?: string
 ): Promise<GitHubRepo[]> => {
   const result = await githubGraphQL<PinnedReposResponse>(
     PINNED_REPOS_QUERY,
@@ -177,7 +177,7 @@ export const getGitHubPinnedRepos = async (
   }));
 };
 
-export const getGitHubRepos = async (username: string, token: string) => {
+export const getGitHubRepos = async (username: string, token?: string) => {
   const allFetchedRepos = await getAllRepos(username, token);
   const pinnedRepos = await getGitHubPinnedRepos(username, token);
 

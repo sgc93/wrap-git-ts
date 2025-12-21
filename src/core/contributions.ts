@@ -305,7 +305,7 @@ export const getMonthlyContributions = (
 export const getGitHubYearlyContributions = async (
   username: string,
   year: number,
-  token: string
+  token?: string
 ): Promise<GitHubContribution> => {
   const from = `${year}-01-01T00:00:00Z`;
   const to = `${year}-12-31T23:59:59Z`;
