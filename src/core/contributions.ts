@@ -340,38 +340,47 @@ export const getGitHubYearlyContributions = async (
 interface ActivityStats {
   pullRequests: number;
   issues: number;
-  year: number;
+  reviews: number;
 }
 
-export const getGitHubYearlyActivityStats = async (
+export const getGitHubActivityStats = async (
   username: string,
   year: number,
-  token?: string
-): Promise<ActivityStats> => {
-  const dateRange = `${year}-01-01..${year}-12-31`;
+  token?: string,
+  yearly?: boolean
+) => {
+  const now = new Date().toISOString().split("T");
+  const dateRange = yearly
+    ? `${year}-01-01..${year}-12-31`
+    : `${year}-01-01..${now}`;
 
-  const prQueryString = `author:${username} created:${dateRange} type:pr`;
-  const issueQueryString = `author:${username} created:${dateRange} type:issue`;
+  const prQuery = `author:${username} created:${dateRange} type:pr`; // pull requests
+  const issueQuery = `author:${username} created:${dateRange} type:issue`; // issues
+  const reviewQuery = `reviewed-by:${username} updated:${dateRange} type:pr`; // reviews
 
   const query = `
-    query($prQuery: String!, $issueQuery: String!) {
+    query($prQuery: String!, $issueQuery: String!, $reviewQuery: String!) {
       totalPRs: search(query: $prQuery, type: ISSUE, first: 0) {
         issueCount
       }
       totalIssues: search(query: $issueQuery, type: ISSUE, first: 0) {
         issueCount
       }
+      totalReviews: search(query: $reviewQuery, type: ISSUE, first: 0) {
+        issueCount
+      }
     }
   `;
 
-  const data = await githubGraphQL<{
-    totalPRs: { issueCount: number };
-    totalIssues: { issueCount: number };
-  }>(query, { prQuery: prQueryString, issueQuery: issueQueryString }, token);
+  const data = await githubGraphQL<any>(
+    query,
+    { prQuery, issueQuery, reviewQuery },
+    token
+  );
 
   return {
     pullRequests: data.totalPRs.issueCount,
     issues: data.totalIssues.issueCount,
-    year
+    reviews: data.totalReviews.issueCount
   };
 };
