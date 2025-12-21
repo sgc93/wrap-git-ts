@@ -11,7 +11,9 @@ This package simplifies data retrieval and analysis from GitHub, making it an ex
 - Analyze commits and contributions per each year.
 - Analyze repos — tops, star counts, and details.
 - Analyze language coverage including repo count, top languages, and percentages.
+- Calculate `Line of Code (LOC)` - total and per each language.
 - Calcuate `longest sreak`, `effective day` and `effective month`.
+- Calculate `GitHub Rank` using Commulative distributions functions.
 
 ## Installation
 
@@ -31,7 +33,18 @@ You can use the package by importing individual methods or use the default expor
 
 ### Option A — Named imports
 ```ts
-  import { getGitHubUser, getGitHubCommits, getGitHubContributions, getGitHubContributionTypesPerYear, getGitHubLanguages, getGitHubRepos, getGitHubPinnedRepos } from "wrap-git";
+  import {   getGitHubUser,
+  getGitHubCommits,
+  getGitHubContributions,
+  getGitHubContributionTypesPerYear,
+  getGitHubYearlyContributions,
+  getGitHubLanguages,
+  getGitHubRepos,
+  getGitHubPinnedRepos,
+  getMonthlyContributions,
+  getGitHubLanguagesByYear,
+  getGitHubYearlyRecap,
+  WrapGitError } from "wrap-git";
 
 
   const userProfile = await getGitHubUser('sgc93', token);  // don't forget to handle errors
@@ -41,9 +54,28 @@ You can use the package by importing individual methods or use the default expor
 ```ts
   import wrapGit from "wrap-git";
 
-  const { getGitHubUser, getGitHubCommits, getGitHubContributions, getGitHubContributionTypesPerYear, getGitHubLanguages, getGitHubRepos, getGitHubPinnedRepos } = wrapGit;
+  const { getGitHubUser,
+  getGitHubCommits,
+  getGitHubContributions,
+  getGitHubContributionTypesPerYear,
+  getGitHubYearlyContributions,
+  getGitHubRepos,
+  getGitHubPinnedRepos,
+  getGitHubYearlyRecap,
+  WrapGitError } = wrapGit;
 
   const userProfile = await getGitHubUser('sgc93', token);  // don't forget to handle errors
+```
+
+### Types
+```ts
+  import type { GitHubProfile,
+  GitHubCommit,
+  GitHubLanguage,
+  GitHubRepo,
+  GitHubContribution,
+  MonthlyContribution } from "wrap-git";
+  
 ```
 
 ## Contributing
