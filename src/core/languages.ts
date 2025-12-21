@@ -142,7 +142,7 @@ export const getGitHubLanguagesByYear = async (
   year: number,
   token?: string,
   sortBy: "repo_count" | "coverage" = "coverage"
-): Promise<{ lngs: GitHubLanguage[]; totalLngs: number }> => {
+): Promise<LngStatReturnType> => {
   const since = `${year}-01-01T00:00:00Z`;
   const until = `${year}-12-31T23:59:59Z`;
 
